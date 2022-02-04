@@ -25,10 +25,16 @@ const User = types.model({
 const john = User.create();
 const eat = Todo.create({ name: "new eat" });
 
-const RootStore = {
-  users: types.map(User),
-  todos: types.optional(types.map(Todo), {}),
-};
+const RootStore = types
+    .model({
+        users: types.map(User),
+        todos: types.map(Todo)
+    })
+    .actions(self => ({
+        addTodo(id: any, name: string) {
+            self.todos.set(id, Todo.create({ name }))
+        }
+    }))
 
 const store = {
   users: {},
